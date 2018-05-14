@@ -23,11 +23,11 @@ namespace _2D_Gravity_Sim
         public const int maxBodies = 50;
         private bool mergeBodies = true;
         private float minMass = 10;
-        private float maxMass = 100;
-        float maxPos = 100.0f;
-        float maxMom = 50.0f;
-        float angMomMean = 200;
-        float angMomStdDev = 50;
+        private float maxMass = 50;
+        float maxPos = 500.0f;
+        float maxMom = 500.0f;
+        float angMomMean = 1000;
+        float angMomStdDev = 200;
 
         public bool IsRunning { get; set; }
 

@@ -38,6 +38,8 @@ namespace _2D_Gravity_Sim
             return;
         }
 
+        
+
         // Possibly should use mean momentum from U(0, pmax)
         public static void Initialise(int maxBodies, float minMass, float maxMass, float maxPos, float maxMom, float angMomMean, float angMomStdDev)
         {
@@ -45,16 +47,28 @@ namespace _2D_Gravity_Sim
 
             for (uint i = 0; i < maxBodies; i++)
             {
+                // Random mass
                 float m = RNG.Uniform(minMass, maxMass);
 
+                // Pick random position using polar coordinates
                 float R = RNG.Uniform(0, maxPos);
                 float thetaR = RNG.Uniform(0, 2 * (float)Math.PI);
 
                 Vector2 r = new Vector2(R * (float)Math.Cos(thetaR), R * (float)Math.Sin(thetaR));
-                // Vector2 p = new Vector2(RNG.Normal(0, momStdDev), RNG.Normal(0, momStdDev));
 
-                float L = RNG.Normal(angMomMean, angMomStdDev);
-                float P = RNG.Uniform(Math.Abs(L) / R, maxMom);
+                float L = RNG.Normal(angMomMean, angMomStdDev); // Random angular momentum according to distribution
+                float P;
+
+                // 
+                if (Math.Abs(L) / R > maxMom)
+                {
+                    P = Math.Abs(L) / R;
+                }
+                else
+                {
+                    P = RNG.Uniform(Math.Abs(L) / R, maxMom);
+                }
+
 
                 float sinTheta = L / (R * P);
                 float theta = (float)Math.Asin(sinTheta);
