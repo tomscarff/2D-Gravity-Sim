@@ -11,7 +11,7 @@ namespace _2D_Gravity_Sim
 {
     static class System
     {
-        const float GravConst = 10;
+        const float GravConst = 1;
 
         public static List<Body> Bodies { get; private set; }
 
@@ -38,9 +38,33 @@ namespace _2D_Gravity_Sim
             return;
         }
 
-        
+        // Initialise without angular momentum
+        public static void Initialise(int maxBodies, float minMass, float maxMass, float maxPos, float maxMom)
+        {
+            Bodies = new List<Body>();
 
-        // Possibly should use mean momentum from U(0, pmax)
+            for (uint i = 0; i < maxBodies; i++)
+            {
+                // Random mass
+                float m = RNG.Uniform(minMass, maxMass);
+
+                // Pick random position using polar coordinates
+                float R = RNG.Uniform(0, maxPos);
+                float thetaR = RNG.Uniform(0, 2 * (float)Math.PI);
+                Vector2 r = new Vector2(R * (float)Math.Cos(thetaR), R * (float)Math.Sin(thetaR));
+
+                // Pick random momentum
+                float P = Math.Abs(RNG.Normal(0, maxMom)); 
+                float thetaP = RNG.Uniform(0, 2* (float)Math.PI);
+                Vector2 p = new Vector2(P * (float)Math.Cos(thetaP), P * (float)Math.Sin(thetaP));
+
+                Body newBody = new Body(i, m, r, p);
+                Bodies.Add(newBody);
+            }
+            return;
+        }
+
+        // Initialise with angular momentum
         public static void Initialise(int maxBodies, float minMass, float maxMass, float maxPos, float maxMom, float angMomMean, float angMomStdDev)
         {
             Bodies = new List<Body>();

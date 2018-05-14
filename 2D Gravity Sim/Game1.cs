@@ -23,9 +23,11 @@ namespace _2D_Gravity_Sim
         public const int maxBodies = 50;
         private bool mergeBodies = true;
         private float minMass = 10;
-        private float maxMass = 50;
+        private float maxMass = 100;
         float maxPos = 500.0f;
         float maxMom = 500.0f;
+
+        bool useInitialAngMom = false; // Angular momentum
         float angMomMean = 1000;
         float angMomStdDev = 200;
 
@@ -85,8 +87,15 @@ namespace _2D_Gravity_Sim
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            System.Initialise(maxBodies, minMass, maxMass, maxPos, maxMom, angMomMean, angMomStdDev);
+            if (useInitialAngMom)
+            {
+                System.Initialise(maxBodies, minMass, maxMass, maxPos, maxMom, angMomMean, angMomStdDev);
+            }
+            else
+            {
+                System.Initialise(maxBodies, minMass, maxMass, maxPos, maxMom);
 
+            }
             IsRunning = true;
             int seed = 10;
             RNG.Seed = seed;
